@@ -121,6 +121,9 @@ if __name__ == '__main__':
         end = time.time()
         ex_time_heur.append(end - start)
 
+        print("MinCircle Center/Radius: " + str(C[0]) + " / " + str(C[1]))
+        print("Heuristic Center/Radius: " + str(C_heur[0]) + " / " + str(C_heur[1]))
+
         # Ploting results
 
         circle1 = plt.Circle(C[0], C[1], color="r", clip_on=False, fill=False)
@@ -143,6 +146,8 @@ if __name__ == '__main__':
         ax2.plot(C[0][0], C[0][1], 'x', color="r")
         plt.show()
 
+    # Ploting runtimes
+
     plt.plot(sizes, ex_time, "r")
     plt.plot(sizes, ex_time_heur, "b")
     plt.xlabel('Input size')
@@ -151,3 +156,32 @@ if __name__ == '__main__':
     plt.grid(True)
     plt.show()
 
+    # Testing on point.txt
+
+    data = np.loadtxt("points.txt", delimiter="   ")
+    C = MinCircle.MinCircle(data)
+    C_heur = MinCircle.HeuristicMinCircle(data)
+    print("MinCircle Center/Radius: " + str(C[0]) + " / " + str(C[1]))
+    print("Heuristic Center/Radius: " + str(C_heur[0]) + " / " + str(C_heur[1]))
+
+    # Ploting results
+
+    circle1 = plt.Circle(C[0], C[1], color="r", clip_on=False, fill=False)
+    circle2 = plt.Circle(C_heur[0], C_heur[1], color="r", clip_on=False, fill=False)
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    ax1.set_title('MinCircle, points.txt')
+    ax1.set_aspect(1)
+    ax1.scatter(data[:, 0], data[:, 1])
+    ax1.set_xlim((0, 800))
+    ax1.set_ylim((0, 800))
+    ax1.add_artist(circle1)
+    ax1.plot(C[0][0], C[0][1], 'x', color="r")
+
+    ax2.set_title('Heuristc, points.txt')
+    ax2.set_aspect(1)
+    ax2.scatter(data[:, 0], data[:, 1])
+    ax2.set_xlim((0, 800))
+    ax2.set_ylim((0, 800))
+    ax2.add_artist(circle2)
+    ax2.plot(C[0][0], C[0][1], 'x', color="r")
+    plt.show()
